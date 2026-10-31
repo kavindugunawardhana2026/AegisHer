@@ -1,0 +1,24 @@
+# Core API
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+pydantic>=2.7
+
+# Imaging + forensics
+pillow>=10.4
+numpy>=1.26
+opencv-python-headless>=4.10,<5  # OpenCV 5 removed the Haar face detector we fall back to
+imagehash>=4.3
+reportlab>=4.2
+
+# Cloaking engine (install CPU or CUDA build of torch to suit your machine)
+torch>=2.4
+torchvision>=0.19
+
+# Dev / tests
+httpx>=0.27
+pytest>=8.0
+
+# --- Optional, stronger surrogate models (see README) ---
+# insightface + onnxruntime + onnx2torch  -> ArcFace identity attack (face-swappers)
+# diffusers + transformers + accelerate   -> Stable Diffusion VAE attack (diffusion editors)

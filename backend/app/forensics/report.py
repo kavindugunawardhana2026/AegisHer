@@ -100,6 +100,8 @@ def _styles():
         "cellb": ParagraphStyle("cb", fontName=BOLD, fontSize=8.5, leading=11, textColor=INK),
         "mono": ParagraphStyle("m", fontName=MONO, fontSize=7.4, leading=9.2, textColor=INK),
     }
+    for st in s.values():
+        st.shaping = 1  # HarfBuzz shaping: needed for Sinhala/Tamil vowel signs and conjuncts
     return s
 
 
@@ -244,7 +246,7 @@ def build_report(incident: Incident, evidence: list[dict], blobs: list[bytes],
         data = [[_p("#", s["cellb"]), _p("Platform", s["cellb"]), _p("URL", s["cellb"]), _p("Notes", s["cellb"])]]
         for i, u in enumerate(incident.urls, 1):
             data.append([_p(i, s["cell"]), _p(platform_for(u.url), s["cell"]),
-                         Paragraph(escape(u.url).replace("/", "/\u200b"), s["mono"]), _p(u.notes or "", s["cell"])])
+                         Paragraph(escape(u.url), s["mono"]), _p(u.notes or "", s["cell"])])
         t = Table(data, colWidths=[8 * mm, 28 * mm, 92 * mm, None], repeatRows=1)
         t.setStyle(TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), SOFT), ("VALIGN", (0, 0), (-1, -1), "TOP"),

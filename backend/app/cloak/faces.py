@@ -34,16 +34,21 @@ class Face:
 
 @lru_cache(maxsize=1)
 def _insightface_detector():
+    """SCRFD detector only. (FaceAnalysis would load all 5 buffalo_l models, ~1 GB of RAM.)"""
     try:
-        from insightface.app import FaceAnalysis  # type: ignore
+        from insightface.model_zoo import get_model  # type: ignore
     except Exception:
         return None
+    path = config.INSIGHTFACE_ROOT / "models" / "buffalo_l" / "det_10g.onnx"
     try:
-        app = FaceAnalysis(name="buffalo_l", root=str(config.INSIGHTFACE_ROOT),
-                           allowed_modules=["detection"], providers=["CPUExecutionProvider"])
-        app.prepare(ctx_id=-1, det_size=(640, 640))
-        return app
-    except Exception as exc:  # weights missing / download failed
+        if not path.exists():  # first run: download the model pack
+            from insightface.utils.storage import ensure_available  # type: ignore
+
+            ensure_available("models", "buffalo_l", root=str(config.INSIGHTFACE_ROOT))
+        det = get_model(str(path), providers=["CPUExecutionProvider"])
+        det.prepare(ctx_id=-1, input_size=(640, 640), det_thresh=0.5)
+        return det
+    except Exception as exc:  # weights missing / download failed / out of memory
         log.warning("InsightFace detector unavailable: %s", exc)
         return None
 
@@ -69,13 +74,13 @@ def detect_faces(rgb: np.ndarray) -> list[Face]:
     det = _insightface_detector()
     if det is not None:
         bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+        bboxes, kpss = det.detect(bgr, max_num=0, metric="default")
         out = []
-        for f in det.get(bgr):
-            x0, y0, x1, y1 = f.bbox.tolist()
+        for i, (x0, y0, x1, y1, score) in enumerate(bboxes.tolist()):
             kps = None
-            if getattr(f, "kps", None) is not None:
-                kps = [[float(px) / w, float(py) / h] for px, py in f.kps]
-            out.append(Face(max(0, x0 / w), max(0, y0 / h), min(1, x1 / w), min(1, y1 / h), float(f.det_score), kps))
+            if kpss is not None:
+                kps = [[float(px) / w, float(py) / h] for px, py in kpss[i]]
+            out.append(Face(max(0, x0 / w), max(0, y0 / h), min(1, x1 / w), min(1, y1 / h), float(score), kps))
         return out
 
     # Haar fallback: run on a downscaled grey image for speed.

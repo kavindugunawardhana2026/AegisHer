@@ -1,0 +1,27 @@
+name: aegisher
+description: AegisHer – shield photos against deepfakes and build cyber-harassment evidence reports.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  receive_sharing_intent: ^1.8.1   # "Share to AegisHer" from Gallery / other apps
+  share_plus: ^10.1.4              # hand the shielded photo to Instagram / Facebook
+  gal: ^2.3.0                      # save shielded photo to the gallery
+  path_provider: ^2.1.5
+  pdfx: ^2.8.0                     # offline PDF report viewer
+  shared_preferences: ^2.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

@@ -102,6 +102,11 @@ async def cloak(
             result = await run_in_threadpool(cloak_image, img, strength)
         except ValueError as exc:
             raise HTTPException(422, str(exc))
+        except (MemoryError, RuntimeError) as exc:
+            if isinstance(exc, MemoryError) or "memory" in str(exc).lower():
+                log.error("Cloak ran out of memory")
+                raise HTTPException(503, "The server ran out of memory. Try again, or use a smaller photo.")
+            raise
 
     buf = io.BytesIO()
     if output_format == "png":

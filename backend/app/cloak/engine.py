@@ -40,12 +40,15 @@ class Preset:
     steps: int
     work_size: int  # longest side used during optimisation
     background: float  # budget multiplier outside faces
+    # Stop early once every face encoder's similarity is below this
+    # (checked after 40% of the steps). Lower = keep pushing for robustness.
+    stop_below: float
 
 
 PRESETS = {
-    "low": Preset(4 / 255, 30, 512, 0.5),
-    "medium": Preset(8 / 255, 60, 512, 0.6),
-    "high": Preset(12 / 255, 100, 640, 0.7),
+    "low": Preset(4 / 255, 30, 512, 0.5, 0.10),
+    "medium": Preset(8 / 255, 60, 512, 0.6, -0.30),
+    "high": Preset(12 / 255, 100, 640, 0.7, -0.45),
 }
 
 
@@ -172,11 +175,20 @@ def cloak_image(img: Image.Image, strength: str = "medium", seed: int | None = N
     delta = (torch.rand_like(x0) * 2 - 1) * eps * 0.5
     delta.requires_grad_(True)
     loss_trace = []
+    steps_run = 0
+    face_encoders = [i for i, (s, _) in enumerate(active) if s.needs_faces]
 
     for step in range(preset.steps):
+        steps_run = step + 1
         x_adv = (x0 + delta * mask).clamp(0, 1)
-        x_t = _eot(x_adv) if step % 4 else x_adv  # every 4th step on the untouched image
-        loss = sum(s.weight * s.similarity(s.embed(x_t, faces), ref) for s, ref in active)
+        clean_step = step % 4 == 0  # every 4th step on the untransformed image
+        x_t = x_adv if clean_step else _eot(x_adv)
+        sims = [s.similarity(s.embed(x_t, faces), ref) for s, ref in active]
+        loss = sum(s.weight * sim for (s, _), sim in zip(active, sims))
+        if (clean_step and face_encoders and step >= preset.steps * 0.4
+                and all(float(sims[i]) < preset.stop_below for i in face_encoders)):
+            loss_trace.append(round(float(loss), 4))
+            break
         loss.backward()
         with torch.no_grad():
             delta -= alpha * delta.grad.sign()
@@ -199,7 +211,9 @@ def cloak_image(img: Image.Image, strength: str = "medium", seed: int | None = N
     metrics = {
         "strength": strength,
         "epsilon_255": round(eps * 255, 1),
-        "steps": preset.steps,
+        "steps": steps_run,
+        "max_steps": preset.steps,
+        "surrogates": [s.name for s, _ in active],
         "faces_detected": len(faces),
         "faces": [f.to_dict() for f in faces],
         "face_detector": detector_name(),

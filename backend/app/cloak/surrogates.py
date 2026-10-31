@@ -64,6 +64,7 @@ class ImageNetSurrogate(Surrogate):
 
     name = "imagenet-resnet"
     description = "ResNet-50 multi-layer features (generic encoder proxy)"
+    use_face_crops = True  # turned off when ArcFace already covers faces (saves time + RAM)
 
     def __init__(self):
         import torchvision
@@ -88,7 +89,7 @@ class ImageNetSurrogate(Surrogate):
 
     def embed(self, x, faces):
         out = self._feats(F.interpolate(x, size=(224, 224), mode="bilinear", align_corners=False))
-        if faces:
+        if faces and self.use_face_crops:
             crops = roi_align(x, _face_rois(faces, x.shape[2], x.shape[3]), output_size=(160, 160), aligned=True)
             out += self._feats(crops)
         return out
@@ -209,10 +210,12 @@ def load_surrogates() -> list[Surrogate]:
     if not loaded:
         raise RuntimeError(f"No surrogate models could be loaded: {_errors}")
     # The generic CNN matters less once specialised encoders are present.
+    has_arcface = any(isinstance(s, ArcFaceSurrogate) for s in loaded)
     if len(loaded) > 1:
         for s in loaded:
             if isinstance(s, ImageNetSurrogate):
                 s.weight = 0.5
+                s.use_face_crops = not has_arcface
     _loaded = loaded
     return loaded
 

@@ -115,19 +115,35 @@ class ArcFaceSurrogate(Surrogate):
     weight = 1.5
 
     def __init__(self):
-        import onnx2torch  # type: ignore
-        from insightface.app import FaceAnalysis  # type: ignore  # noqa: F401  (ensures model pack)
+        cache = config.MODEL_DIR / "arcface_w600k_r50.pt"
+        if cache.exists():
+            model = torch.load(cache, map_location="cpu", weights_only=False)
+        else:
+            model = self._convert_from_onnx()
+            cache.parent.mkdir(parents=True, exist_ok=True)
+            torch.save(model, cache)  # converting needs ~3x the RAM; do it once
+        self.model = model.eval().to(DEVICE).requires_grad_(False)
 
-        root = Path(os.path.expanduser("~/.insightface/models/buffalo_l"))
-        onnx_path = root / "w600k_r50.onnx"
-        if not onnx_path.exists():
-            FaceAnalysis(name="buffalo_l", allowed_modules=["recognition"], providers=["CPUExecutionProvider"])
+    @staticmethod
+    def _convert_from_onnx():
+        import gc
+
+        import onnx  # type: ignore
+        import onnx2torch  # type: ignore
+        from insightface.app import FaceAnalysis  # type: ignore
+
+        onnx_path = config.INSIGHTFACE_ROOT / "models" / "buffalo_l" / "w600k_r50.onnx"
+        if not onnx_path.exists():  # downloads the buffalo_l model pack
+            FaceAnalysis(name="buffalo_l", root=str(config.INSIGHTFACE_ROOT),
+                         allowed_modules=["recognition"], providers=["CPUExecutionProvider"])
         if not onnx_path.exists():
             raise FileNotFoundError(onnx_path)
-        import onnx  # type: ignore
-
         # Pass an in-memory model: converting from a path uses a temp file that fails on Windows.
-        self.model = onnx2torch.convert(onnx.load(str(onnx_path))).eval().to(DEVICE).requires_grad_(False)
+        proto = onnx.load(str(onnx_path))
+        model = onnx2torch.convert(proto)
+        del proto
+        gc.collect()
+        return model
 
     def _theta(self, f: Face, h: int, w: int) -> torch.Tensor:
         if f.kps:

@@ -38,7 +38,9 @@ def main():
 
     from insightface.app import FaceAnalysis
 
-    fa = FaceAnalysis(name="buffalo_l", allowed_modules=["detection", "recognition"], providers=["CPUExecutionProvider"])
+    from app import config
+
+    fa = FaceAnalysis(name="buffalo_l", root=str(config.INSIGHTFACE_ROOT), allowed_modules=["detection", "recognition"], providers=["CPUExecutionProvider"])
     fa.prepare(ctx_id=-1, det_size=(640, 640))
 
     def faces_of(img: Image.Image):

@@ -1,5 +1,12 @@
 """Runtime settings, read from environment variables."""
 import os
+from pathlib import Path
+
+# All downloaded model weights live here (InsightFace, torchvision, Hugging Face).
+MODEL_DIR = Path(os.getenv("AEGIS_MODEL_DIR", Path(__file__).resolve().parents[1] / ".models"))
+INSIGHTFACE_ROOT = MODEL_DIR / "insightface"
+os.environ.setdefault("TORCH_HOME", str(MODEL_DIR / "torch"))
+os.environ.setdefault("HF_HOME", str(MODEL_DIR / "huggingface"))
 
 
 def _csv(name: str, default: str) -> list[str]:

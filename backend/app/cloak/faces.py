@@ -13,6 +13,8 @@ from functools import lru_cache
 import cv2
 import numpy as np
 
+from .. import config
+
 log = logging.getLogger(__name__)
 
 
@@ -37,7 +39,8 @@ def _insightface_detector():
     except Exception:
         return None
     try:
-        app = FaceAnalysis(name="buffalo_l", allowed_modules=["detection"], providers=["CPUExecutionProvider"])
+        app = FaceAnalysis(name="buffalo_l", root=str(config.INSIGHTFACE_ROOT),
+                           allowed_modules=["detection"], providers=["CPUExecutionProvider"])
         app.prepare(ctx_id=-1, det_size=(640, 640))
         return app
     except Exception as exc:  # weights missing / download failed
@@ -86,6 +89,17 @@ def detect_faces(rgb: np.ndarray) -> list[Face]:
     boxes = haar.detectMultiScale(grey, scaleFactor=1.1, minNeighbors=6, minSize=(min_side, min_side))
     sh, sw = grey.shape
     return [Face(x / sw, y / sh, (x + bw) / sw, (y + bh) / sh, 0.9) for (x, y, bw, bh) in boxes]
+
+
+def texture_map(rgb: np.ndarray, floor: float = 0.35) -> np.ndarray:
+    """0..1 map of local detail. Noise hides well in texture, poorly on flat skin/sky."""
+    grey = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY).astype(np.float32) / 255
+    k = max(3, int(min(grey.shape) * 0.012) | 1)
+    mean = cv2.GaussianBlur(grey, (k, k), 0)
+    std = np.sqrt(np.maximum(cv2.GaussianBlur(grey * grey, (k, k), 0) - mean * mean, 0))
+    tex = np.clip(std / 0.05, 0, 1)  # std of ~0.05 (13/255) counts as fully textured
+    tex = cv2.GaussianBlur(tex, (k, k), 0)
+    return (floor + (1 - floor) * tex).astype(np.float32)
 
 
 def face_mask(faces: list[Face], h: int, w: int, background: float) -> np.ndarray:

@@ -27,7 +27,7 @@ import torch.nn.functional as F
 from PIL import Image, ImageOps
 
 from .. import config
-from .faces import Face, detect_faces, detector_name, face_mask
+from .faces import Face, detect_faces, detector_name, face_mask, texture_map
 from .surrogates import DEVICE, load_surrogates, surrogate_errors
 
 if config.TORCH_THREADS:
@@ -43,12 +43,14 @@ class Preset:
     # Stop early once every face encoder's similarity is below this
     # (checked after 40% of the steps). Lower = keep pushing for robustness.
     stop_below: float
+    # Budget multiplier on perfectly flat areas (skin, sky); textured areas get 1.0.
+    flat_floor: float
 
 
 PRESETS = {
-    "low": Preset(4 / 255, 30, 512, 0.5, 0.10),
-    "medium": Preset(8 / 255, 60, 512, 0.6, -0.30),
-    "high": Preset(12 / 255, 100, 640, 0.7, -0.45),
+    "low": Preset(4 / 255, 30, 512, 0.5, 0.10, 0.35),
+    "medium": Preset(8 / 255, 60, 512, 0.6, -0.30, 0.35),
+    "high": Preset(12 / 255, 100, 640, 0.7, -0.45, 0.45),
 }
 
 
@@ -164,7 +166,8 @@ def cloak_image(img: Image.Image, strength: str = "medium", seed: int | None = N
     work = _resize_arr(full, preset.work_size)
     h, w = work.shape[:2]
     x0 = _to_tensor(work)
-    mask = torch.from_numpy(face_mask(faces, h, w, preset.background)).to(DEVICE)[None, None]
+    weights = face_mask(faces, h, w, preset.background) * texture_map(work, preset.flat_floor)
+    mask = torch.from_numpy(weights).to(DEVICE)[None, None]
 
     with torch.no_grad():
         clean = [s.embed(x0, faces) for s in surrogates]

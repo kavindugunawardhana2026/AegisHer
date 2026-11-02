@@ -60,7 +60,7 @@ function Shell() {
           }`}
         >
           <a href="#home" className="flex items-center gap-2.5 text-brand-500">
-            <ShieldIcon className="h-8 w-8 drop-shadow-[0_0_12px_rgba(255,90,107,0.55)]" />
+            <ShieldIcon className="h-8 w-8 drop-shadow-[0_0_12px_rgba(95,250,123,0.55)]" />
             <span className="text-lg font-extrabold tracking-tight text-white">
               Aegis<span className="font-display font-semibold text-gold">Her</span>
             </span>
@@ -92,7 +92,7 @@ function Shell() {
                 type="button"
                 onClick={() => setLang(l)}
                 aria-pressed={lang === l}
-                className={`rounded-full px-3 py-1 transition ${lang === l ? 'bg-white text-[#14070c] shadow' : 'text-white/70 hover:text-white'}`}
+                className={`rounded-full px-3 py-1 transition ${lang === l ? 'bg-white text-[#06140a] shadow' : 'text-white/70 hover:text-white'}`}
               >
                 {l === 'en' ? 'EN' : 'සිං'}
               </button>

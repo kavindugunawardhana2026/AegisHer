@@ -5,7 +5,7 @@ type Variant = 'primary' | 'secondary' | 'ghost'
 
 /** White pill with soft glow, like the reference site's "Register" button. Also used for download links. */
 export const btnPrimary =
-  'inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#14070c] shadow-[0_10px_30px_-10px_rgba(255,255,255,0.45)] transition hover:-translate-y-px hover:bg-[#ffe9ec] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500'
+  'inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#06140a] shadow-[0_10px_30px_-10px_rgba(255,255,255,0.45)] transition hover:-translate-y-px hover:bg-[#dcfee3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500'
 
 export function Button({
   variant = 'primary',
@@ -14,7 +14,7 @@ export function Button({
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   const styles: Record<Variant, string> = {
     primary:
-      'bg-white text-[#14070c] shadow-[0_10px_30px_-10px_rgba(255,255,255,0.45)] hover:-translate-y-px hover:bg-[#ffe9ec] disabled:translate-y-0 disabled:bg-white/25 disabled:text-white/50 disabled:shadow-none',
+      'bg-white text-[#06140a] shadow-[0_10px_30px_-10px_rgba(255,255,255,0.45)] hover:-translate-y-px hover:bg-[#dcfee3] disabled:translate-y-0 disabled:bg-white/25 disabled:text-white/50 disabled:shadow-none',
     secondary: 'border border-white/12 bg-white/5 text-ink hover:border-white/25 hover:bg-white/10 disabled:opacity-50',
     ghost: 'text-brand-700 hover:bg-white/5 disabled:opacity-50',
   }
@@ -36,7 +36,7 @@ export function Eyebrow({ children, badge }: { children: ReactNode; badge?: Reac
     <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] py-1 pr-1 pl-3.5 text-[11px] font-medium tracking-[0.18em] text-ink/90 uppercase backdrop-blur">
       {children}
       {badge ? (
-        <span className="rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold tracking-normal text-[#14070c] normal-case">{badge}</span>
+        <span className="rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold tracking-normal text-[#06140a] normal-case">{badge}</span>
       ) : (
         <span className="pr-2" />
       )}

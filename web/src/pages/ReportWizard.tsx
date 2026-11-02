@@ -274,7 +274,7 @@ export function ReportWizard() {
               <legend className="mb-2 text-sm font-medium text-ink">{t.thumbnails}</legend>
               <div className="flex flex-wrap gap-2">
                 {(['blurred', 'full', 'none'] as ThumbnailMode[]).map((m) => (
-                  <label key={m} className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-sm ${thumbs === m ? 'border-white bg-white font-semibold text-[#14070c]' : 'border-white/12 text-ink hover:border-white/25'}`}>
+                  <label key={m} className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-sm ${thumbs === m ? 'border-white bg-white font-semibold text-[#06140a]' : 'border-white/12 text-ink hover:border-white/25'}`}>
                     <input type="radio" name="thumbs" className="sr-only" checked={thumbs === m} onChange={() => setThumbs(m)} />
                     {{ blurred: t.thumbBlurred, full: t.thumbFull, none: t.thumbNone }[m]}
                   </label>

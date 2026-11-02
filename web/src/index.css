@@ -7,22 +7,23 @@
   --font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
 
   /* brand-50..200 are dark tinted surfaces/borders; 500+ are the crimson accents */
-  --color-brand-50: #241019;
-  --color-brand-100: #3d1222;
-  --color-brand-200: #5c1a30;
-  --color-brand-500: #ff5a6b;
-  --color-brand-600: #e91033;
-  --color-brand-700: #ff8a97;
-  --color-brand-900: #ffd6dc;
+  --color-brand-50: #0f2016;
+  --color-brand-100: #143020;
+  --color-brand-200: #1d4a2c;
+  --color-brand-500: #5ffa7b;
+  --color-brand-600: #29d045;
+  --color-brand-700: #a6fdb5;
+  --color-brand-900: #dcfee3;
 
-  --color-gold: #f1c99b;
-  --color-gold-deep: #c99d4e;
+  --color-mint: #5ffa7b;
+  --color-gold: #5ffa7b;
+  --color-gold-deep: #29d045;
 
-  --color-ink: #f5f1f4;
-  --color-muted: #a99fae;
-  --color-line: #2a2230;
-  --color-canvas: #05050a;
-  --color-surface: #110d17;
+  --color-ink: #f2f7f3;
+  --color-muted: #9fb3a5;
+  --color-line: #1f2e25;
+  --color-canvas: #050a07;
+  --color-surface: #0b140e;
 }
 
 html {
@@ -53,8 +54,9 @@ html:lang(si) [class*='tracking-['] {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 55% at 50% -5%, rgba(255, 70, 96, 0.42), rgba(43, 6, 14, 0.55) 45%, transparent 75%),
-    radial-gradient(at 10% 80%, rgba(233, 16, 51, 0.08), transparent 40%),
+    radial-gradient(ellipse 70% 55% at 50% -5%, rgba(41, 208, 69,  0.42), rgba(8, 30, 16,  0.55) 45%, transparent 75%),
+    radial-gradient(at 10% 80%, rgba(95, 250, 123,  0.07), transparent 40%),
+    radial-gradient(at 92% 30%, rgba(95, 250, 123,  0.05), transparent 35%),
     var(--color-canvas);
 }
 .page-glow::after {
@@ -68,7 +70,7 @@ html:lang(si) [class*='tracking-['] {
 
 /* Floating glass nav bar */
 .topbar {
-  background: linear-gradient(90deg, rgba(86, 27, 51, 0.78), rgba(143, 22, 40, 0.7), rgba(86, 27, 51, 0.78));
+  background: linear-gradient(90deg, rgba(14, 50, 26,  0.78), rgba(24, 92, 44,  0.7), rgba(14, 50, 26,  0.78));
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(14px);
@@ -76,14 +78,14 @@ html:lang(si) [class*='tracking-['] {
 
 /* Wine-gradient card surface */
 .card-surface {
-  background: linear-gradient(145deg, rgba(52, 18, 31, 0.72), rgba(17, 13, 23, 0.94));
+  background: linear-gradient(145deg, rgba(16, 44, 26,  0.72), rgba(8, 14, 10,  0.94));
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 /* Gold gradient text (Cinzel accent lines) */
 .gold-text {
-  background: linear-gradient(100deg, #a77b32 0%, #f8e6a8 28%, #c99d4e 52%, #fff0b8 76%, #a8792f 100%);
+  background: linear-gradient(100deg, #29d045 0%, #c9ffd3 28%, #5ffa7b 52%, #e6ffeb 76%, #29d045 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -91,9 +93,9 @@ html:lang(si) [class*='tracking-['] {
 
 /* Peach map-pin style number badge */
 .pin {
-  background: linear-gradient(145deg, #f1c99b, #b97878);
-  color: #2a1019;
-  box-shadow: 0 0 0 6px rgba(241, 201, 155, 0.08), 0 10px 24px -8px rgba(241, 201, 155, 0.45);
+  background: linear-gradient(145deg, #a6fdb5, #5ffa7b);
+  color: #06140a;
+  box-shadow: 0 0 0 6px rgba(95, 250, 123,  0.1), 0 10px 24px -8px rgba(95, 250, 123,  0.45);
 }
 
 input[type='range'].slider-overlay {
@@ -308,7 +310,7 @@ html {
 /* Stacked card deck */
 .deck-card {
   /* solid so the cards behind don't show through */
-  background: linear-gradient(145deg, #2e101b, #120d17);
+  background: linear-gradient(145deg, #10261a, #0b150f);
   transform-origin: bottom left;
   transition:
     transform 0.8s var(--ease-soft),
@@ -327,7 +329,7 @@ html {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 90, 107, 0.16), transparent 45%);
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(95, 250, 123,  0.16), transparent 45%);
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;
@@ -342,8 +344,8 @@ html {
   inset-inline: 0;
   top: 10%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #ff5a6b, transparent);
-  box-shadow: 0 0 18px 4px rgba(255, 90, 107, 0.45);
+  background: linear-gradient(90deg, transparent, #5ffa7b, transparent);
+  box-shadow: 0 0 18px 4px rgba(95, 250, 123,  0.4);
   animation: scan 2.8s ease-in-out infinite alternate;
 }
 @keyframes scan {
@@ -360,34 +362,34 @@ html {
   opacity: 0.16;
 }
 .scan-frame .face-box {
-  stroke: #ff5a6b;
+  stroke: #fbbf24;
   transition: stroke 0.6s ease;
 }
 .scan-frame.is-shielded .face-box {
-  stroke: #34d399;
+  stroke: #5ffa7b;
   stroke-dasharray: 3 3;
 }
 .scan-frame .mesh line {
-  stroke: rgba(255, 138, 151, 0.8);
+  stroke: rgba(251, 191, 36, 0.8);
   transition: all 0.9s var(--ease-soft);
 }
 .scan-frame .mesh circle {
-  fill: #ff8a97;
+  fill: #fbbf24;
   transition: all 0.9s var(--ease-soft);
 }
 .scan-frame.is-shielded .mesh line {
-  stroke: rgba(241, 201, 155, 0.55);
+  stroke: rgba(95, 250, 123, 0.6);
 }
 .scan-frame.is-shielded .mesh circle {
-  fill: #f1c99b;
+  fill: #5ffa7b;
 }
 
 /* Journey map */
 .journey-map {
   background-image:
-    radial-gradient(circle at 18% 30%, transparent 0 38px, rgba(226, 182, 135, 0.05) 39px 40px, transparent 41px 66px, rgba(226, 182, 135, 0.04) 67px 68px, transparent 69px),
-    radial-gradient(circle at 82% 70%, transparent 0 50px, rgba(226, 182, 135, 0.04) 51px 52px, transparent 53px),
-    linear-gradient(150deg, rgba(41, 25, 34, 0.92), rgba(17, 15, 23, 0.96));
+    radial-gradient(circle at 18% 30%, transparent 0 38px, rgba(95, 250, 123,  0.05) 39px 40px, transparent 41px 66px, rgba(95, 250, 123,  0.04) 67px 68px, transparent 69px),
+    radial-gradient(circle at 82% 70%, transparent 0 50px, rgba(95, 250, 123,  0.04) 51px 52px, transparent 53px),
+    linear-gradient(150deg, rgba(16, 34, 22,  0.92), rgba(8, 14, 10,  0.96));
 }
 .map-path {
   clip-path: inset(0 100% 0 0);
@@ -408,10 +410,10 @@ html {
   transform: rotate(45deg);
 }
 .pin-drop-last {
-  background: linear-gradient(145deg, #392234, #18131d);
-  color: #f1c99b;
-  box-shadow: 0 0 0 6px rgba(241, 201, 155, 0.06);
-  outline: 1px dashed rgba(241, 201, 155, 0.45);
+  background: linear-gradient(145deg, #163222, #0c1a11);
+  color: #5ffa7b;
+  box-shadow: 0 0 0 6px rgba(95, 250, 123,  0.06);
+  outline: 1px dashed rgba(95, 250, 123,  0.45);
   outline-offset: 4px;
 }
 .bob {
@@ -449,7 +451,7 @@ html {
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: conic-gradient(from var(--ang), transparent 0deg, #ff5a6b 50deg, #f1c99b 110deg, transparent 170deg 360deg);
+  background: conic-gradient(from var(--ang), transparent 0deg, #5ffa7b 50deg, #5ffa7b 110deg, transparent 170deg 360deg);
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -488,6 +490,6 @@ html {
   }
 }
 .topbar.is-scrolled {
-  background: linear-gradient(90deg, rgba(60, 18, 35, 0.92), rgba(110, 16, 31, 0.88), rgba(60, 18, 35, 0.92));
+  background: linear-gradient(90deg, rgba(10, 36, 20,  0.92), rgba(18, 70, 34,  0.88), rgba(10, 36, 20,  0.92));
   box-shadow: 0 20px 50px -18px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }

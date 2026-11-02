@@ -42,7 +42,7 @@ export function Dropzone({
         over ? 'border-brand-500 bg-brand-500/10' : 'border-white/15 bg-white/[0.02] hover:border-brand-500/50 hover:bg-brand-500/5'
       }`}
     >
-      <svg className="h-11 w-11 text-brand-500 drop-shadow-[0_0_14px_rgba(255,90,107,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <svg className="h-11 w-11 text-brand-500 drop-shadow-[0_0_14px_rgba(95,250,123,0.5)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
         <path d="M4 16.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       <p className="text-sm font-semibold text-ink">{title}</p>

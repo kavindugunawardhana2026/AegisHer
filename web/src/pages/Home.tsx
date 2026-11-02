@@ -116,7 +116,7 @@ function ShieldOrb() {
   return (
     <div className="orb-parallax relative mx-auto aspect-square w-60 sm:w-80 lg:w-[26rem]" aria-hidden>
       {/* soft glow */}
-      <div className="absolute inset-[12%] rounded-full bg-[radial-gradient(circle,rgba(255,70,96,0.55),rgba(233,16,51,0.12)_55%,transparent_70%)] blur-2xl" />
+      <div className="absolute inset-[12%] rounded-full bg-[radial-gradient(circle,rgba(41,208,69,0.55),rgba(41,208,69,0.12)_55%,transparent_70%)] blur-2xl" />
       {/* expanding pulses */}
       {[0, 1.1, 2.2].map((d) => (
         <span key={d} className="pulse-ring absolute inset-[18%] rounded-full border border-brand-500/40" style={{ '--d': `${d}s` } as CSSProperties} />
@@ -124,15 +124,15 @@ function ShieldOrb() {
       {/* rotating rings */}
       <div className="spin-slow absolute inset-0">
         <svg viewBox="0 0 200 200" className="h-full w-full">
-          <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(241,201,155,0.35)" strokeWidth="0.6" strokeDasharray="2 6" />
-          <circle cx="100" cy="4" r="2.6" fill="#f1c99b" />
-          <circle cx="196" cy="100" r="1.6" fill="#ff5a6b" />
+          <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(95,250,123,0.35)" strokeWidth="0.6" strokeDasharray="2 6" />
+          <circle cx="100" cy="4" r="2.6" fill="#5ffa7b" />
+          <circle cx="196" cy="100" r="1.6" fill="#5ffa7b" />
         </svg>
       </div>
       <div className="spin-rev absolute inset-[9%]">
         <svg viewBox="0 0 200 200" className="h-full w-full">
-          <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(255,90,107,0.45)" strokeWidth="0.8" strokeDasharray="60 18 4 18" />
-          <circle cx="4" cy="100" r="2.4" fill="#ff8a97" />
+          <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(95,250,123,0.45)" strokeWidth="0.8" strokeDasharray="60 18 4 18" />
+          <circle cx="4" cy="100" r="2.4" fill="#a6fdb5" />
         </svg>
       </div>
       <div className="spin-slow absolute inset-[20%] [animation-duration:14s]">
@@ -143,8 +143,8 @@ function ShieldOrb() {
       </div>
       {/* the shield */}
       <div className="float absolute inset-0 flex items-center justify-center">
-        <div className="relative flex h-[38%] w-[38%] items-center justify-center rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#3a0f1d] to-[#12090f] shadow-[0_30px_80px_-20px_rgba(233,16,51,0.7),inset_0_1px_0_rgba(255,255,255,0.08)]">
-          <ShieldIcon className="h-[62%] w-[62%] text-brand-600 drop-shadow-[0_0_24px_rgba(255,90,107,0.8)]" />
+        <div className="relative flex h-[38%] w-[38%] items-center justify-center rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#123a20] to-[#08120b] shadow-[0_30px_80px_-20px_rgba(41,208,69,0.7),inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <ShieldIcon className="h-[62%] w-[62%] text-brand-600 drop-shadow-[0_0_24px_rgba(95,250,123,0.8)]" />
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@ function ShieldOrb() {
 function Marquee({ items }: { items: string[] }) {
   const row = [...items, ...items]
   return (
-    <div className="relative z-10 -my-2 -rotate-[1.5deg] border-y border-white/10 bg-gradient-to-r from-[#561b33] via-[#8f1628] to-[#561b33] py-4 shadow-[0_20px_60px_-20px_rgba(233,16,51,0.6)]">
+    <div className="relative z-10 -my-2 -rotate-[1.5deg] border-y border-white/10 bg-gradient-to-r from-[#0e3a1c] via-[#1a7a32] to-[#0e3a1c] py-4 shadow-[0_20px_60px_-20px_rgba(41,208,69,0.6)]">
       <div className="marquee overflow-hidden">
         <ul className="marquee-track gap-10 pr-10">
           {row.map((it, i) => (
@@ -354,7 +354,7 @@ function Demo({ h }: { h: HomeText }) {
                   type="button"
                   onClick={() => pick(s)}
                   aria-pressed={shielded === s}
-                  className={`rounded-full px-3.5 py-1.5 transition ${shielded === s ? 'bg-white text-[#14070c]' : 'text-white/70 hover:text-white'}`}
+                  className={`rounded-full px-3.5 py-1.5 transition ${shielded === s ? 'bg-white text-[#06140a]' : 'text-white/70 hover:text-white'}`}
                 >
                   {s ? h.shielded : h.original}
                 </button>
@@ -368,11 +368,11 @@ function Demo({ h }: { h: HomeText }) {
               </div>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
                 <div
-                  className={`h-full rounded-full transition-colors duration-700 ${shielded ? 'bg-emerald-400' : 'bg-gradient-to-r from-brand-600 to-brand-500'}`}
+                  className={`h-full rounded-full transition-colors duration-700 ${shielded ? 'bg-gradient-to-r from-brand-600 to-brand-500' : 'bg-amber-400'}`}
                   style={{ width: `${match}%` }}
                 />
               </div>
-              <p className={`mt-2 text-xs font-semibold transition-colors duration-700 ${shielded ? 'text-emerald-300' : 'text-brand-700'}`}>
+              <p className={`mt-2 text-xs font-semibold transition-colors duration-700 ${shielded ? 'text-brand-500' : 'text-amber-300'}`}>
                 {shielded ? `✓ ${h.stranger}` : `● ${h.recognised}`}
               </p>
             </div>
@@ -399,8 +399,8 @@ function FaceArt({ shielded }: { shielded: boolean }) {
     <svg viewBox="0 0 200 250" className="absolute inset-0 h-full w-full" aria-hidden>
       <defs>
         <radialGradient id="face-bg" cx="50%" cy="38%" r="70%">
-          <stop offset="0" stopColor="#4a1527" />
-          <stop offset="1" stopColor="#0d0910" />
+          <stop offset="0" stopColor="#103420" />
+          <stop offset="1" stopColor="#060c08" />
         </radialGradient>
         <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#d9a38a" />
@@ -415,8 +415,8 @@ function FaceArt({ shielded }: { shielded: boolean }) {
       </defs>
       <rect width="200" height="250" fill="url(#face-bg)" />
       {/* hair + shoulders + face */}
-      <path d="M40 250c4-40 28-62 60-62s56 22 60 62Z" fill="#2a1520" />
-      <path d="M52 132c-6-52 18-82 48-82s54 30 48 82c-4 30-14 50-14 50H66s-10-20-14-50Z" fill="#1d0f16" />
+      <path d="M40 250c4-40 28-62 60-62s56 22 60 62Z" fill="#13241a" />
+      <path d="M52 132c-6-52 18-82 48-82s54 30 48 82c-4 30-14 50-14 50H66s-10-20-14-50Z" fill="#0d1a12" />
       <ellipse cx="100" cy="132" rx="38" ry="48" fill="url(#skin)" opacity="0.9" />
       <rect x="90" y="172" width="20" height="22" rx="6" fill="#8a5a4c" />
       {/* adversarial noise */}
@@ -460,7 +460,7 @@ function Journey({ h }: { h: HomeText }) {
             <path
               d="M0 40 C 120 0, 220 10, 320 34 S 520 60, 620 30 S 820 0, 1000 26"
               fill="none"
-              stroke="#c99d4e"
+              stroke="#29d045"
               strokeWidth="2"
               strokeDasharray="6 8"
               vectorEffect="non-scaling-stroke"
@@ -558,7 +558,7 @@ function Faq({ h }: { h: HomeText }) {
                   {f.q}
                   <span
                     className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/15 text-lg leading-none transition duration-500 ${
-                      isOpen ? 'rotate-45 border-transparent bg-white text-[#14070c]' : ''
+                      isOpen ? 'rotate-45 border-transparent bg-white text-[#06140a]' : ''
                     }`}
                   >
                     +
@@ -585,9 +585,9 @@ function FinalCta({ h, danger, notAlone }: { h: HomeText; danger: string; notAlo
     <Section className="pb-28">
       <Reveal variant="zoom">
         <div className="glow-border relative overflow-hidden rounded-[2.5rem] px-6 py-16 text-center sm:px-12 sm:py-20">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,70,96,0.45),rgba(43,6,14,0.9)_55%,#08070d)]" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(41,208,69,0.45),rgba(8,30,16,0.9)_55%,#060c08)]" />
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:linear-gradient(to_bottom,black,transparent)]" />
-          <ShieldIcon className="float mx-auto h-14 w-14 text-brand-500 drop-shadow-[0_0_24px_rgba(255,90,107,0.7)]" />
+          <ShieldIcon className="float mx-auto h-14 w-14 text-brand-500 drop-shadow-[0_0_24px_rgba(95,250,123,0.7)]" />
           <h2 className="mx-auto mt-6 max-w-2xl text-3xl leading-tight font-extrabold tracking-tight text-white sm:text-5xl">{h.ctaTitle}</h2>
           <p className="mx-auto mt-4 max-w-xl text-muted sm:text-lg">{h.ctaBody}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">

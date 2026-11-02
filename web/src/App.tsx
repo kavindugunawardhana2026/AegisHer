@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { serverMissing } from './api'
 import { btnPrimary, ShieldIcon } from './components/ui'
 import { I18nProvider, useI18n } from './i18n'
 import { About } from './pages/About'
@@ -103,6 +104,11 @@ function Shell() {
       </header>
 
       <main key={tab} className={`page-enter ${tab === 'home' ? '' : 'mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16'}`}>
+        {serverMissing && (tab === 'cloak' || tab === 'report') && (
+          <p role="status" className="mb-8 rounded-2xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+            {h.demoNotice}
+          </p>
+        )}
         {tab === 'home' && <Home />}
         {tab === 'cloak' && <CloakStudio />}
         {tab === 'report' && <ReportWizard />}

@@ -1,5 +1,8 @@
 const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? ''
 
+/** True on the static GitHub Pages copy when no backend URL was configured: the photo tools can't work there. */
+export const serverMissing = !BASE && window.location.hostname.endsWith('github.io')
+
 export type Strength = 'low' | 'medium' | 'high'
 
 export interface CloakMetrics {
@@ -89,6 +92,9 @@ export interface Contacts {
 }
 
 async function fail(res: Response): Promise<never> {
+  if (serverMissing) {
+    throw new Error('This online preview is not connected to the AegisHer server, so photo tools are unavailable here.')
+  }
   // 502/503/504 mean the proxy could not reach the Python backend (usually: it isn't running).
   if (res.status >= 502 && res.status <= 504) {
     throw new Error('Cannot reach the AegisHer server right now. Please check that the backend is running and try again.')

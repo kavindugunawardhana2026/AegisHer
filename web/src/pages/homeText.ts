@@ -3,6 +3,8 @@ import type { Lang } from '../i18n'
 /** Landing page copy, English + Sinhala. Kept apart from i18n.tsx because it is long and page-specific. */
 const en = {
   navHome: 'Home',
+  demoNotice:
+    'Online preview: Photo Shield and evidence reports need the AegisHer server, which is not connected to this link yet. Everything else works.',
   heroTitle: 'Your face. Your rules.',
   heroGold: 'Sri Lanka’s anti-deepfake shield for women and girls',
   heroBody:
@@ -125,6 +127,8 @@ export type HomeText = typeof en
 
 const si: HomeText = {
   navHome: 'මුල් පිටුව',
+  demoNotice:
+    'Online පෙරදසුන: ඡායාරූප ආරක්ෂාව සහ සාක්ෂි වාර්තා සඳහා AegisHer server එක අවශ්‍ය වන අතර එය තවම මෙම link එකට සම්බන්ධ කර නැත. අනෙක් සියල්ල ක්‍රියා කරයි.',
   heroTitle: 'ඔබේ මුහුණ. ඔබේ තීරණය.',
   heroGold: 'කාන්තාවන් සහ දැරියන් සඳහා ශ්‍රී ලංකාවේ deepfake ආරක්ෂක පලිහ',
   heroBody:
